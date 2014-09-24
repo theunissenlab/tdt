@@ -1,0 +1,80 @@
+clear all
+close all
+addpath C:\matlab\classes\
+addpath C:\matlab\'Matlab tank access'\
+myTank = 'mic_calib_white_noise';
+myBlock = 'wn_test_mic_calib_precis_filt';
+savepath = 'C:\Documents and Settings\Sepehr\My Documents\MATLAB\mic_calibration_data\';
+
+% create the TTank object
+TTX = actxcontrol('TTank.X')
+
+% connect to the server
+TTX.ConnectServer('Local', 'Me')
+
+% Open the tank
+TTX.OpenTank(myTank, 'R')
+
+% select the desired block
+TTX.SelectBlock(myBlock)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% read the waveform in that block
+ wave = TTX.ReadWavesV('Wave');
+ 
+ 
+% channel 1 is the input to the microphone
+mic_input_precis   = wave(:,1);
+spkr_output_precis = wave(:,2);
+fsamp = 24414.06; 
+ 
+ % take the first 4 seconds
+mic_input_precis = mic_input_precis(1:fix(4*fsamp));
+spkr_output_precis = spkr_output_precis(1:fix(4*fsamp));
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+save white_noise_precis_mic.mat   mic_input_precis    spkr_output_precis
+
+% close the tank
+TTX.CloseTank
+% release the server
+TTX.ReleaseServer
+
+%close all
+
+% Make a figure
+% 1. First plot the waveforms
+figure(10);
+npts = length(mic_input_precis);
+tpts = 0:npts-1;
+tpts = tpts./fsamp;
+rmsinput = std(mic_input_precis);
+plot(tpts, mic_input_precis./rmsinput);
+
+hold on;
+rmsoutput = std(spkr_output_precis);
+plot(tpts, spkr_output_precis./rmsoutput, 'r');
+hold off;
+title('Waveforms for precision mic');
+xlabel('time (sec)');
+ylabel('Amp. (V)');
+
+
+
+% 2. transfer function
+% Now the tf estimate
+h = figure(11);
+tfestimate(mic_input_precis,spkr_output_precis,2048,[],[],fsamp);
+title('Transfer function for precision mic');
+saveas(h,[savepath,'tf_wn_precis_mic'], 'fig');
+
+% 3. coherence
+h = figure(12);
+mscohere(mic_input_precis,spkr_output_precis,2048,[],[],fsamp);
+title('Coherence function for precision mic');
+saveas(h,[savepath,'coh_wn_precis_mic'], 'fig');
+
+% 4. cross-correlation
+h = figure(15);
+[c lags] = xcorr(mic_input_precis,spkr_output_precis, fix(0.1*fsamp));
+plot(lags/fsamp, c);
+title('Cross-correlation functiopn for precision mic');
+saveas(h,[savepath,'xcorr_wn_precis_mic'], 'fig');

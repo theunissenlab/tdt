@@ -1,0 +1,11 @@
+function disp(s)
+
+%% DISPLAY(t) Display a session object
+
+% dstr = sprintf(['Session: %s\nStarttime: %s\nBlock name: %s\n'...
+%                 'Tank Name: %s\nProtocol: %s',get(b,'sessionid'),...
+%                 disp(b.starttime),b.blockname,b.tankname,get(b.protocol)
+
+
+dstr = sprintf('Block name: %s\nTank name: %s',b.blockname,b.tankname);
+disp(dstr);

@@ -1,0 +1,16 @@
+function val = get(s,propName)
+
+% GET Get singlepres properties from the specified object
+% and return the value
+switch propName
+case 'Block'
+    val = get(s.presentation,'Block');
+case 'Type'
+    val = get(s.stim,'Type');
+case 'StartTime'
+    val = s.StartTime;
+case 'EndTime'
+    val = s.EndTime;
+otherwise
+    error([propName,' Is not a valid property for singlepres'])
+end

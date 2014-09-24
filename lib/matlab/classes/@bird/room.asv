@@ -1,0 +1,27 @@
+function r = room(varargin)
+%% ROOM Constructor function for room object
+% r = room(building,roomnumber)
+
+%%
+switch nargin
+    
+%% If no input arguments, create a default object
+case 0
+    r.building = '';
+    r.roomnumber = '';
+    r = class(r,'room');
+    
+%% If single argument of class room, return it
+case 1
+    if (isa(varargin{1},'room'))
+        r = varargin{1};
+    else
+        error('Wrong argument type')
+    end
+
+case 2
+    r.building = varargin{1};
+    
+otherwise
+    error('Wrong number of arguments')
+end

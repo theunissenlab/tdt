@@ -1,0 +1,21 @@
+function [spec,pkey_name,values] = db_spec(r)
+
+% Specify where to find the relevant fields in the database
+
+pkey_name = {'room_id'};
+property_names = {
+    'field'         'schema'    'table'     'column'};
+spec = {
+    'roomnumber'    'lab'       'rooms'     'room_number'
+    };
+spec = cell2struct(spec,property_names,2);
+
+% Assign value from structure data
+for jj = 1:length(spec)
+    values{jj} = r.(spec(jj).field);
+end
+
+% Insert values for building as well
+[b_spec,b_pkey,b_values] = db_spec(r.building);
+spec = [spec;b_spec];
+values = [values;b_values];

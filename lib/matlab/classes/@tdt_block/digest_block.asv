@@ -1,0 +1,4 @@
+function [epocs,block_spikes] = digest_tdt_block(tdt_block_in)
+
+% Extraction method for block object
+

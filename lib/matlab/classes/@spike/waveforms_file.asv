@@ -1,0 +1,20 @@
+function waveforms_file(s,filename)
+
+% Export spike waveforms to a .f32 file
+
+%% Preallocate text-file output
+n_spikes = length([s(:).time]);
+out_data = zeros(n_spikes,4);
+
+%% Save text file
+out_data(:,1) = [s(:).time];
+out_data(:,2) = [s(:).channel];
+out_data(:,3) = [1:n_spikes];
+out_data(:,4) = [s(:).sortcode];
+dlmwrite(filename,out_data,'delimiter',delimiter,'precision','%.8f')
+        if exist(wavesfile,'file')
+            delete(wavesfile);
+        end
+        fid = fopen(wavesfile,'w');
+        fwrite(fid,loaded.block_spikes(:).waveform,'float32');
+        fclose(fid);

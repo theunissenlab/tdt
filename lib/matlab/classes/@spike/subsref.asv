@@ -1,0 +1,46 @@
+function t = subsref(s,index)
+%SUBSREF Define field name indexing for spike objects
+
+goodfields = {'time','channel','sortcode','waveform'};
+
+switch index(1).type
+case '()'
+    switch length(index)
+        case 1
+            spiketimes = s.time;
+            channels = s.channel;
+            sortcodes = s.sortcode;
+            waveforms = s.waveform;
+            t = spike(spiketimes(index(1).subs{:}),...
+                channels(index(1).subs{:}),sortcodes(index(1).subs{:}),...
+                waveforms(:,index(1).subs{:}));
+        case 2
+            switch index(2).type
+                case '()'
+                    error('Array indexing not supported for spike references')
+                case '.'
+                    switch index(2).subs
+                        case 'time' 'channel' 'sortcode'
+                            t = get(s,index(2).subs);
+                            t = t(index(1).subs{:});
+                        case 'waveform'
+                            t = get(s,index(2).subs);
+                        otherwise
+                            error('Invalid field name')
+                    end
+                case '{}'
+                    error('Cell array indexing not supported for spike references')
+            end
+        otherwise
+            error('Reference too deep')
+    end
+case '.'
+    switch index.subs
+        case goodfields
+            t = get(s,index.subs);
+        otherwise
+            error('Invalid field name')
+    end
+case '{}'
+    error('Cell array indexing not supported by spike objects')
+end

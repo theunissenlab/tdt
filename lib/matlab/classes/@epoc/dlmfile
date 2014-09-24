@@ -1,0 +1,9 @@
+function retcode = tofile(e)
+
+% Export epocs to a tab-delimited text file
+
+n_epocs = length(e(:).value);
+out_data = zeros(n_epocs,3);
+out_data(:,1) = [e(:).value];
+out_data(:,2) = [e(:).starttime];
+out_data(:,3) = [e(:).endtime];

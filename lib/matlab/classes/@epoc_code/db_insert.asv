@@ -1,0 +1,13 @@
+function ec = db_insert(c)
+
+% Insert epoc data exported from TDT into the database
+
+%% Check if code exists in the database already
+ec = db_find(c);
+if ~s
+    db_insert(e.block);
+end
+
+%% Insert epoc code if necessary
+
+

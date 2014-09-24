@@ -1,0 +1,22 @@
+% This is a basic script to extract some data from a tank
+
+% Specify tank # and block # to use
+if ~exist('tanknum')
+    tanknum = 2;
+end
+if ~exist('blocknum')
+    blocknum = 3;
+end
+
+%===================================================================
+% Access server and open specified tank and block
+%===================================================================
+
+% Connect to server
+tank_access;
+
+% Open tank specified by tanknum
+[tanknames,ntanks] = get_tanknames(ttank);
+if invoke(ttank,'OpenTank',tanknum,
+[blocknames,nblocks] = get_blocknames(ttank);
+

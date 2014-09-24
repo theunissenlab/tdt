@@ -1,0 +1,30 @@
+function epoc_names = epoc_names(b)
+
+% Retrieve all epoc names for a block
+
+global ttank
+clientname = 'MatlabTankExport';
+
+% Connect to tank server
+tank = b.tank;
+if ttank.ConnectServer(tank.server,clientname) ~= 1
+    error('error connecting to tank server')
+end
+
+% Look up tank on server
+if ttank.OpenTank(tank.name,'R') ~=1
+    error('error opening tank');
+end
+
+% Look up block on server
+if ttank.
+
+
+for jj = 1:max_n_epocs
+    epoc_names{jj} = actxname.GetEpocCode(jj-1);
+    if isempty(epoc_names{jj})
+        break
+    end
+end
+
+epoc_names = {epoc_names{1:jj-1}};

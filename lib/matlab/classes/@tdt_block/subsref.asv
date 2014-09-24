@@ -1,0 +1,31 @@
+function b = subsref(t,index)
+%SUBSREF Define field name indexing for asset objects
+switch index.type
+case '()'
+    error('Array indexing not supported by tdt_block objects');
+%    switch index.subs{:}
+%    case 1
+%       b = a.descriptor;
+%    case 2
+%       b = a.date;
+%    case 3
+%       b = a.currentValue;
+%    otherwise
+%       error('Index out of range')
+%    end
+case '.'
+    switch index(1).subs
+        case {'name'}
+            b = t.(index.subs);
+        case {'tank'}
+            if length(index) > 1
+                b = subsref(t.tank,
+            else
+                b = 
+            end
+        otherwise
+            error('Invalid field name')
+    end
+case '{}'
+    error('Cell array indexing not supported by tdt_block objects')
+end

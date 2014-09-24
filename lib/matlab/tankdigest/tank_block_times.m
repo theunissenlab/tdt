@@ -1,0 +1,22 @@
+% OBSOLETE 5/12/08 RCM
+% Functionality replicated in tank.tdt_blocks
+%
+% function blocks = tank_block_times(tank_in)
+% 
+% % Extract all spikes and epocs for a tank and save them
+% 
+% global ttank
+% 
+% %% Retrieve info for all blocks
+% blocks = tdt_blocks(tank_in);
+% nblocks = length(blocks);
+% 
+% %% Retrieve the spikes and epocs for each block and save
+% for jj = 1:nblocks
+%     try
+%         blocks{jj} = ttank_times(blocks{jj});
+%     catch
+%         errstring = sprintf('Error extracting block %s %s:\n%s',...
+%             blocks{jj}.name,tank_in.name,lasterr);
+%     end
+% end

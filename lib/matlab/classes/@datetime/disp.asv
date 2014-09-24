@@ -1,0 +1,5 @@
+function display(dt)
+
+%% DISPLAY(dt) Display a datetime object
+
+disp(datestr([dt.day,dt.month,dt.year,dt.hour,dt.minute,dt.second]

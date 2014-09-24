@@ -1,0 +1,38 @@
+function r = room(varargin)
+%% ROOM Constructor function for room object
+% r = room(building,roomnumber)
+
+% Class specification
+classname = 'room';
+fieldspec = {'name'         'class'         'notnull'   'default'};
+classspec = {...
+            'building'      'building'      true        [];...
+            'roomnumber'    'char'          true        '';...
+    };
+classspec = cell2struct(classspec,fieldspec,2);
+nfields = length(classspec);
+
+%% If no input arguments, create a default object
+
+if nargin == 0
+    r = assign_defaults(classspec,nfields);
+    
+%% If single argument of class room, return it
+elseif nargin == 1
+    if (isa(varargin{1},'room'))
+        b = varargin{1};
+        return
+    else
+        error('Wrong argument type')
+    end
+   
+%% Use input session
+elseif nargin <= nfields
+    r = assign_fields(classspec,nfields,varargin)
+%%
+else
+   error('Wrong number of input arguments')
+end
+
+%% Create output object
+b = class(b,'room');

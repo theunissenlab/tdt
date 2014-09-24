@@ -1,0 +1,28 @@
+function block_dlmfile(t,out_dir)
+
+% Extract all spikes and epocs for a tank and save them
+
+global ttank
+
+%% Retrieve info for all blocks
+blocks = tdt_blocks(t);
+nblocks = length(blocks);
+blockdata = cell(nblocks,4);
+
+%% Display tank name
+disp(sprintf('%s:',t.name));
+
+%% Retrieve the start and end time for each block and save
+fiatdir([out_dir filesep]);
+
+for jj = 1:nblocks
+    b = blocks{jj};
+    blockdata(jj,:) = {t.name b.name sql_str(b.starttime) sql_str(b.endtime)};
+end
+
+%% Write data to file
+outfilename = fullfile(out_dir,'blocks.txt');
+fid = fopen(outfilename,'w');
+for jj = 1:nblocks
+    fprintf(fid,'%s\t%s\t%s\t%s\n',
+dlmwrite(outfilename,blockdata);

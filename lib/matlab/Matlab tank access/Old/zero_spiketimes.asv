@@ -1,0 +1,11 @@
+function zeroed_spiketimes = zero_spiketimes(spiketimes,stim_times)
+
+%===================================================================
+% This function uses the data in stim_times to get the zero times
+% for each trial (stim_times is a cell array with each cell being
+% one trial, and data field 'start' containing a vector of the start
+% times for each trial).
+%===================================================================
+
+nstims = length(spiketimes);
+ntrials = length(spiketimes{1});

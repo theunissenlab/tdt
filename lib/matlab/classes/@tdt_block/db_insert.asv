@@ -1,0 +1,55 @@
+function tdt_block_id = db_insert(b)
+
+% Insert tdt_block data into database
+
+%% Check to see if the block exists in the database
+tdt_block_id = db_find(b);
+
+if tdt_block_id
+    error('SQL:Insert',...
+        'Block is already present in database with block_id = %0.0f',...
+        tdt_block_id);
+
+%% Otherwise insert it
+else
+    % Insert tank into database if it's not there already
+    tank_id = db_find(b.tank);
+    if isempty(tank_id)
+        db_insert(b.tank);
+    end
+    
+    % Parse time values
+    time_fields = {'starttime','endtime'};
+    time_columns = {'starttime','endtime'};
+    for jj = 1:length(time_fields)
+        dt = b.(time_fields{jj});
+        
+        % Regard zero dates as NULL
+        if dt == 0
+            sql_cmd = sprintf(['UPDATE blocks SET %s = NULL ',...
+                'WHERE tdt_block_id = %0.0f'],time_columns{jj},...
+                tdt_block_id);
+        else
+            sql_cmd = sprintf(['UPDATE blocks SET %s = ''%s'' ',...
+                'WHERE tdt_block_id = %0.0f'],time_columns{jj},disp(dt),...
+                tdt_block_id);
+        end
+    end
+    
+    % Insert block
+%     sql_cmd = sprintf(['INSERT INTO blocks (block_name,tank_id) ',...
+%         'VALUES(''%s'', ',...
+%         'SELECT tank_id FROM tanks WHERE tank_name = ''%s'');'],...
+%         b.name,b.tank.name);
+    mysql('use tdt_data');
+    sql_cmd = sprintf(['INSERT INTO blocks (block_name,tank_id) ',...
+        'SELECT ''%s'',tank_id FROM tanks WHERE tank_name = ''%s'';'],...
+        b.name,b.tank.name);
+    mysql(sql_cmd);
+    
+    % Insert start and end time variables
+    tdt_block_id = db_find(b);
+    
+        
+        mysql(sql_cmd);
+end

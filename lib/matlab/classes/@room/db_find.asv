@@ -1,0 +1,49 @@
+function varargout = db_find(r)
+
+%% Get index of tank in database
+
+%% Process target fields
+
+% Define where to find information about the variable in the database
+% db_props = {'field'         'schema'    'table'     'column'};
+% db_spec = {
+%             'roomnumber'    'lab'       'rooms'     'room_number';...
+%             'building'      'lab'       'building'  'building_name'
+%             };
+% db_spec = cell2struct(db_spec,db_props,2);
+%nfields = length(db_spec);
+
+% Call generic sql_find command to retrieve info from db
+[spec,pkey_id,values] = db_spec(r);
+if nargout > length(pkey_id)
+    error('Too many output arguments')
+end
+%varargout = sql_find(pkey_id,spec,values);
+
+% %% Build select expression
+% select_expr = target_fields{1};
+% for jj = 2:noutputs
+%     select_expr = [select_expr ',' target_fields{jj}];
+% end
+% 
+% %% Build table and where expressions
+% table_references = db_spec(1).table;
+% where_condition = db_spec(1).column;
+% for jj = 2:nfields
+%     table_references = [table_references ' NATURAL JOIN ' db_spec(jj).table];
+%     where_condition = [where_condition ' AND ' db_spec(jj).column];
+% end
+% 
+% %% Build SQL command and evaluate
+% sql_cmd = sprintf('SELECT %s FROM %s WHERE %s;',select_expr,...
+%     table_references,where_condition);
+% % sql_cmd = sprintf(['SELECT room_id ',...
+% %     'FROM rooms NATURAL JOIN buildings ',...
+% %     'WHERE roomnumber = %s AND building_name = %s;'],...
+% %     sql_str(r),sql_str(r.building));
+% result = mysql(sql_cmd);
+
+%% Assign results to outputs
+% for jj = 1:nargout
+%     varargout{jj} = result.(target_fields{jj});
+% end

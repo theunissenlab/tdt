@@ -1,0 +1,15 @@
+function tanknames = get_tanknames
+
+%======================================================
+% This script loops over all the tanks on the current
+% server and returns an array with their names and
+% indices
+%======================================================
+
+tanknames = cell(0);
+tankname = 'foo';
+jj = 0;
+
+while ~isempty('tankname')
+    tankname = invoke(ttank,'GetEnumTank',jj);
+    tanknames{jj}.

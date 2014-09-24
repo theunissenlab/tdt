@@ -1,0 +1,14 @@
+function blocks = tdt_blocks(t)
+
+% Get all blocks for one tank
+
+foo = 'bar';
+global ttank;
+%[blocknames,nblocks] = get_blocknames(ttank,t.name);
+access(t);
+
+%blocks = cell(1,nblocks);
+
+for jj = 1:nblocks
+    blocks{jj} = tdt_block(blocknames{jj}.name,t);
+end

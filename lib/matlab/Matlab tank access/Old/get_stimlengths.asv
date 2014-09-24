@@ -1,0 +1,62 @@
+% This is a basic script to get basic epoch information from the tank
+
+% Specify tank # and block # to use
+if ~exist('tanknum')
+    tanknum = 2;
+end
+if ~exist('blocknum')
+    blocknum = 3;
+end
+
+%===================================================================
+% Access server and open specified tank and block
+%===================================================================
+
+% Connect to server
+tank_access;
+
+% Open tank specified by tanknum
+[tanknames,ntanks] = get_tanknames(ttank);
+tankname = tanknames{tanknum}.name;
+if (invoke(ttank,'OpenTank',tankname,'R') ~=1)
+    err = 'error opening tank'
+end
+
+% Open the block specified by blocknum
+[blocknames,nblocks] = get_blocknames(ttank);
+blockname = blocknames{blocknum}.name;
+if (invoke(ttank,'SelectBlock',blockname) ~=1)
+    err = 'error accessing block'
+end
+
+%===================================================================
+% Get the epoch information and compute with it
+%===================================================================
+
+% Get epoch data
+stim_epocs = invoke(ttank,'GetEpocsV','Frq+',0,0,1000);
+
+% Compute stimulus lengths from epoch data
+%stim_lengths = stim_epocs(3,1:nstims)-stim_epocs(2,1:nstims);
+%stimlengths = zeros(1,nstims);
+%for jj = 1:nstims
+%    stim = stim_epocs(1,jj);
+%    stimlength(stim) = stim_lengths(jj);
+%end
+
+% Compute stim start times from epoch data
+times = stim_epocs';            %There is no dictionary sort for column data
+times = sortrows(times);        %Dictionary sort puts the data in order
+for jj = 1:nstims
+    start = ntrials*(jj-1)+1;
+    stop = start + ntrials -1;
+    stim_times{jj}.start = times(start:stop,2);
+    stim_times{jj}.end = times(start:stop,3);
+    stim_times{jj}.length = mean(stim_times{jj}.end-stim_times{jj}.start);
+end
+
+%===================================================================
+% Close connection
+%===================================================================
+
+invoke(ttank,'ReleaseServer');

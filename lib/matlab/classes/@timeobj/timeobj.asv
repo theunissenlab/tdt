@@ -1,0 +1,45 @@
+function timeobj(varargin)
+%% timeobj Constructor function for timeobj object
+% d = timeobj(timeobj)
+
+switch nargin
+
+%% If no input arguments, create a default object
+case 0
+    t.hour = 0;
+    t.minute = 0;
+    t.second = 0;
+    
+%% If single argument of class time, return it
+case 1
+    if (isa(varargin{1},'timeobj'))
+        t = varargin{1};
+        
+%% If single argument of class str or numeric, treat it as a Matlab date
+% Use the time portion as the time
+    elseif ischar(varargin{1}) | isnumeric(varargin{1})
+        indate = datevec(varargin{1});
+    else
+        error('Wrong input argument type');
+    end
+    
+%% If two arguments, format according to the second argument
+case 2
+    
+    % Check if the arguments are formatted correctly
+    if isnumeric(varargin{1}) && ischar(varargin{2})
+        sf = time_scale_factor(varargin{2},'days');
+    else
+        error('Wrong input argument type');
+    end
+    
+    indate = datevec(sf*varargin{1});
+
+%% Fail    
+otherwise
+    error('Wrong number of input arguments')
+end
+
+%% Create output object
+
+t = class(t,'timeovj

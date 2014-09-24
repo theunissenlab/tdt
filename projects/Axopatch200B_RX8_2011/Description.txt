@@ -1,0 +1,1 @@
+6/21/10 uses dual processors of RX8 to control Axopatch 200B for juxtacellular recording. Grass fellowship rig had RX8 and no RZ5.

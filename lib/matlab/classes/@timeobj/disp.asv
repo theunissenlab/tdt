@@ -1,0 +1,18 @@
+function disp(t)
+
+%% DISPLAY(t) Display a time object
+
+daystr = sprintf('%0.0f',t.
+
+minstr = sprintf('%0.0f',t.minute);
+if t.minute < 10
+    minstr = ['0',minstr];
+end
+
+secstr = sprintf('%0.0f',t.second);
+if t.second < 10
+    secstr = ['0',secstr];
+end
+
+dstr = sprintf('%0.0f:%s:%s',t.hour,minstr,secstr);
+disp(dstr);

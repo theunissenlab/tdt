@@ -1,0 +1,3 @@
+function epocs,block_spikes = digest_block(block_in)
+
+% Extraction method for block object

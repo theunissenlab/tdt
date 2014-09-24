@@ -1,0 +1,17 @@
+function digest_tank(tank_in,out_dir)
+
+% Extract all spikes and epocs for a tank and save them
+
+global ttank
+
+%% Retrieve info for all blocks
+blocks = tdt_blocks(tank_in);
+nblocks = length(blocks);
+
+%% Retrieve the spikes and epocs for each block and save
+for jj = 1:nblocks
+    block_spikes = spikes(blocks{jj});
+    block_epocs = all_epocs(blocks{jj});
+    outfile = fullfile(out_dir,[blocks{jj}.name '.mat']);
+    save(outfile,'block_spikes','block_epocs');
+end

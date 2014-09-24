@@ -1,0 +1,16 @@
+function retcode = dlmfile(e,filename,delimiter)
+
+% Export epocs to a tab-delimited text file
+
+if nargin < 3
+    delimiter = '\t';
+end
+
+%n_epocs = length(e(:).value);
+%out_data = zeros(n_epocs,3);
+dlmwrite(filename,e(:).value,delimiter,
+out_data(:,1) = [e(:).value];
+out_data(:,2) = [e(:).starttime];
+out_data(:,3) = [e(:).endtime];
+
+retcode = dlmwrite(filename,out_data,delimiter,'precision','%.8f')

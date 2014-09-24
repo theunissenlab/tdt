@@ -1,0 +1,30 @@
+function p = presentation(varargin)
+%% PRESENTATION Constructor function for presentation object
+% p = presentation(block)
+
+switch nargin
+    
+%% If no input arguments, create a default object
+case 0
+    p.block = block;
+    p = class(p,'presentation');
+case 1
+% if single argument of class asset, return it
+   if (isa(varargin{1},'spike'))
+      s = varargin{1};
+   else
+      error('Wrong argument type')
+   end 
+case {3,4}
+% create object using specified values
+    r = response(varargin{1},varargin{2});
+    s.time = varargin{3};
+    if nargin == 4
+    	s.waveform = varargin{4};
+    else
+        s.waveform = [];
+    end
+    s = class(s,'response',r);
+otherwise
+   error('Wrong number of input arguments')
+end

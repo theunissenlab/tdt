@@ -1,0 +1,1 @@
+4/27/10 uses dual processors of RX8 to control Axopatch 200B for juxtacellular recording.

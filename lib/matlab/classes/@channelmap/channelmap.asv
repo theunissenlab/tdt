@@ -1,0 +1,32 @@
+function c = channelmap(varargin)
+
+%% channelmap Constructor function for channelmap object
+% c = channelmap(electrode,electrodechannel,hwchannel)
+
+switch nargin
+%% If no input argumentr, create a default object
+case 0
+    c.electrode = electrode;
+    c.electrodechannel = [];
+    c.hwchannel = [];
+    c = class(c,'channelmap');
+    
+%% If 3 input arguments, create object from input
+case 3
+    if (isa(varargin{1},'electrode'))
+        c.electrode = varargin{1};
+    else
+        error('Wrong input type')
+    end
+    
+    if all(cellfun(@isnumeric,varargin{2:3}))
+        c_names = {'electrodechannel','hwchannel'};
+        for jj = 1:length(c_names)
+            if ~isinteger(varargin{jj})
+                warning('',...
+                    'Recasting input "%s" as integer -- rounding error may occur')
+            end
+        end
+    end
+        
+otherwise

@@ -1,0 +1,24 @@
+function tank_id = insert_tank(t)
+
+% Insert tank data into database
+
+mysql('USE tdt_data');
+
+%% Check if the tank exists in the database
+sql_cmd = sprintf('SELECT tank_id FROM tanks WHERE tank_name = ''%s''',...
+    t.name);
+tank_id = mysql(sql_cmd);
+
+if tank_id
+    error('SQL:Insert',...
+        'Tank is already present in database with block_id %0.0f',tank_id)
+else
+    sql_cmd = sprintf(...
+        'INSERT INTO tanks (tank_name,tank_filepath) VALUES(%s,%s);',...
+        t.name,t.filename);
+    mysql(sql_cmd);
+end
+
+sql_cmd = sprintf('SELECT tank_id FROM tanks WHERE tank_name = ''%s'';',...
+    t.name);
+tank_id = mysql(sql_cmd);

@@ -1,0 +1,5 @@
+function tf = connect(t)
+
+%% Connect method for tankserver object
+
+t.tankserver.ConnectServer(t.servername,t.clientname)
